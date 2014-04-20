@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="/static/lib/bootstrap/css/bootstrap.css" media="all"/>
+    <link rel="stylesheet" type="text/css" href="/static/lib/bootstrap/css/bootstrap-responsive.css" media="all"/>
+    <link rel="stylesheet" type="text/css" href="/static/css/trend.css">
+    <link rel="stylesheet" type="text/css" href="/static/css/frame.css">
+    <link rel="stylesheet" type="text/css" href="/static/css/style.css">
+
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
+
+
+    <script type="text/javascript" src="/static/lib/d3/d3.v3.min.js"></script>
+
+    <script type="text/javascript" src="/static/lib/jquery/jquery-1.10.2.js"></script>
+    <script type="text/javascript" src="/static/lib/bootstrap/js/bootstrap.min.js"></script>
+    <script src="/static/js/custom.js"></script>
+    <script src="/static/js/d3.layout.cloud.js"></script>
+    
+    <script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script> 
+
+     <script type="text/javascript">
+/*
+// run the currently selected effect
+function runEffect() {
+// get effect type from
+var selectedEffect = "clip";
+// most effect types need no options passed by default
+var options = {};
+// some effects have required parameters
+
+$( "#effect" ).show( selectedEffect, options, 500, callback );
+};
+//callback function to bring a hidden box back
+function callback() {
+setTimeout(function() {
+$( "#effect:visible" ).removeAttr( "style" ).fadeOut();
+}, 1000 );
+};
+// set effect from select menu value
+
+//$( "#effect" ).hide();
+*/
+
+
+$(function() {
+$( "#slider-range" ).slider({
+
+range: true,
+values: [ 1985, 2001 ],
+max: 2013,
+min:1973,
+step: 4,
+
+slide: function( event, ui ) {
+$( "#amount" ).val( "" + ui.values[ 0 ] + " - " + ui.values[ 1 ] );
+}
+});
+$( "#amount" ).val( "" + $( "#slider-range" ).slider( "values", 0 ) +
+" - " + $( "#slider-range" ).slider( "values", 1 ) );
+
+
+});
+
+
+</script>   
+
+</head>
+<body>
+<div class="navbar">
+    <div class="navbar-inner">
+        <a class="brand" href="/">SAE</a>
+        <ul class="nav">
+        </ul>
+    </div>
+</div>
+<div class="container">
+    <div id="main">
+    <div id="chart" class="pull-left">
+        <div>
+        <input type="text" id="amount" style="margin-left:20px; border:0; color:#f6931f; font-weight:bold;">
+        <button>query</button>
+        </div>
+        <div id="slider-range" style="height:15px; margin-left: 70px;"></div>
+        <div class="modal-loading"></div>
+        <div id="tooltip" class="hidden">
+			
+			<p><strong id="value"></strong></p>
+		</div>
+        <div id="trendByYear" class="hidden" style="">
+            <!--<span id="interploatTrend" class="label label-info capitalize light"></span>-->
+        </div>
+    </div>
+
+                
+    </div>
+    
+
+
+
+    <div id="fade"></div>
+    <script src="/static/js/sankey.js"></script>
+    
+    
+    <div id="bottom-box">
+    </div>
+     		<div id="right-box" style="overflow:auto; width:263px;">
+                <ul class="nav nav-tabs" id="nav" style="display:none">
+                  <li class="active" ><a href="#" id="first-three">Current Hotspot</a></li>
+                  <li><a href="#" id="revert">Overall</a></li>
+                  
+                </ul>
+            </div> 
+                <script src="/static/js/trend_old.js"></script>
+                
+</div>
+
+<div class="popupbox" id="popuprel"><!--jixiangyu 注意在 g 和node 不同标签添加鼠标动作组建的不同效果-->
+           <div id="intabdiv" style="border-radius:15%">
+            <h1>作者信息<br />
+		      <a href="http://www.baidu.com" target="_blank">作者主页链接</a>
+            </h1>
+                <p>
+                    <img src ="test1.jpg" align ="right" style="right:10px">
+                    <h2 id="get"></h2>
+                </p>
+           </div>
+
+</div>
+
+<!--<div class="toggler" style="width: 500px; height: 200px; z-index: 100000;">
+<div id="effect" class="ui-widget-content ui-corner-all" style="">
+<h3 class="ui-widget-header ui-corner-all" style="margin: 0; padding: 0.4em; text-align: center;">Show</h3>
+<p>
+Etiam libero neque, luctus a, eleifend nec, semper at, lorem. Sed pede. Nulla lorem metus, adipiscing ut, luctus sed, hendrerit vitae, mi.
+</p>
+</div>
+</div>
+<head>
+    <style type="text/css">
+     .toggler { width: 500px; height: 200px; z-index: 100000; left:263px; top:80px;}
+
+#effect { width: 240px; height: 135px; padding: 0.4em; position: relative; }
+#effect h3 { margin: 0; padding: 0.4em; text-align: center; }
+    </style>
+</head>-->
+
+
+
+
+</body>
+</html>
+

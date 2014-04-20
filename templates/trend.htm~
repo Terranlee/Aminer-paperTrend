@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="/static/lib/bootstrap/css/bootstrap.css" media="all"/>
+    <link rel="stylesheet" type="text/css" href="/static/lib/bootstrap/css/bootstrap-responsive.css" media="all"/>
+    <link rel="stylesheet" type="text/css" href="/static/css/trend.css">
+    <link rel="stylesheet" type="text/css" href="/static/css/frame.css">
+    <link rel="stylesheet" type="text/css" href="/static/css/style.css">
+
+    <script type="text/javascript" src="/static/lib/d3/d3.v3.min.js"></script>
+    <script type="text/javascript" src="/static/lib/jquery/jquery-1.10.2.js"></script>
+    <script type="text/javascript" src="/static/lib/bootstrap/js/bootstrap.min.js"></script>
+<script src="/static/js/custom.js"></script>
+
+</head>
+<body>
+<div class="navbar">
+    <div class="navbar-inner">
+        <a class="brand" href="/">SAE</a>
+        <ul class="nav">
+        </ul>
+    </div>
+</div>
+<div class="container">
+    <div id="chart" class="pull-left">
+        <div class="modal-loading"></div>
+                 <div id="tooltip" class="hidden">
+			
+			<p><strong id="value"></strong></p>
+		</div>
+                
+        </div>
+    <div id="fade"></div>
+    <script src="/static/js/sankey.js"></script>
+    
+    
+    <div id="bottom-box">
+    </div>
+     		<div id="right-box" style="overflow:auto; width:263px;">
+                <ul class="nav nav-tabs" id="nav" style="display:none">
+                  <li class="active" ><a href="#" id="first-three">Current Hotspot</a></li>
+                  <li><a href="#" id="revert">Overall</a></li>
+                </ul>
+            </div> 
+                <script src="/static/js/trend_old.js"></script>
+                <script type="text/javascript">console.log("finish");</script>
+</div>
+
+<div class="popupbox" id="popuprel">
+           <div id="intabdiv" style="border-radius:15%">
+	<h1>作者信息<br />
+		<a href="http://www.baidu.com" target="_blank">作者主页链接</a></h1>
+                <p><img src ="test1.jpg" align ="right" style="right:10px"><h2 id="get"></h2></p>
+           </div>
+</div>
+
+
+</body>
+</html>
+
