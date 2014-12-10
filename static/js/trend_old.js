@@ -4,6 +4,23 @@
 
 var root;  //// jixiangyu  test_zoom
 
+
+////the cordiantes of the mouse   jixiangyu
+function getEventObject(W3CEvent) {   //事件标准化函数
+return W3CEvent || window.event;
+}
+
+
+function getPointerPosition(e) {   //兼容浏览器的鼠标x,y获得函数
+e = e || getEventObject(e);
+var x = e.pageX || (e.clientX + (document.documentElement.scrollLeft || document.body.scrollLeft));
+var y = e.pageY || (e.clientY + (document.documentElement.scrollTop || document.body.scrollTop));
+return { 'x':x,'y':y };
+}
+
+
+
+
 var margin = {
         top: 1,
         right: 1,
