@@ -14,7 +14,7 @@ format = function (d) {
 };
 color = d3.scale.category20();
 chart = d3.select("#chart").append("svg").attr("width", width + margin.left + margin.right).attr("height", height + margin.top + margin.bottom);
-timeline = d3.select("#right-box").append("svg");
+timeline;
 bar_pos = 170;
 timeline_item_offset = 20;
 ball_radius = 6;
