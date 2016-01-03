@@ -120,7 +120,7 @@ d3.sankey = function() {
   };
 
   sankey.change_link = function(change_link, from_node, to_node){
-
+    
   };
 
   sankey.repaint = function(iterations){

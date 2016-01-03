@@ -7,34 +7,6 @@ margin = {
     left: 1
 };
 
-Array.prototype.remove=function(dx) 
-{ 
-    if(isNaN(dx)||dx>this.length){return false;} 
-    for(var i=0,n=0;i<this.length;i++) 
-    { 
-        if(this[i]!=this[dx]) 
-        { 
-            this[n++]=this[i] 
-        } 
-    } 
-    this.length-=1 
-}
-
-Array.prototype.remove_object=function(obj){ 
-    for(var i =0;i <this.length;i++){ 
-        var temp = this[i]; 
-        if(!isNaN(obj)){ 
-            temp=i; 
-        } 
-        if(temp == obj){ 
-            for(var j = i;j <this.length;j++){ 
-                this[j]=this[j+1]; 
-            } 
-            this.length = this.length-1; 
-        } 
-    } 
-} 
-
 width = 1500;
 height = 900 - margin.top - margin.bottom;      //整个进化图的宽度和高度
 
@@ -105,58 +77,6 @@ render_topic = function (q, start, end) {
 
         $("#chart").removeClass("loading");
         /*
-        terms = {};
-        max_sum = 0;
-        energy.terms.forEach(function (t) {
-            // terms中的y和d应该就像是每个topic的time distribution，每一年的
-            // terms中的doc应该是相关的文档编号，freq = len(doc) = 所有d的求和
-
-            // 但是terms中还有一个dist，应该是分布的意思，但是和d对应不上啊。。。
-            // dist应该是按照时间片切分的，有11项，正好对应energy.time_slides中的11个时间片
-            // dist的意思暂时不知道
-            //TODO:
-
-            // t.sum是最近几年的paper数量，大于2010年的
-            t.sum = 0;
-            t.year.forEach(function (tt) {
-                if ((tt.y > 2010) && (tt.d > 0)) {
-                    t.sum += tt.d;
-                }
-            });
-            if (t.sum > max_sum) {
-                max_sum = t.sum;
-            }
-            terms[t.t] = t;
-        });
-        people = {};
-        energy.people.forEach(function (t) {
-            people[t.id] = t;
-        });
-        */
-
-        /*
-        // 左侧直方图的长度（也就是能容纳多少项）
-        // energy.terms表示的应该就是直方图中表示的那些研究方向
-        timeline.attr("height", function (d) {
-            return 25 * energy.terms.length;
-        });
-        // 直方图左侧有一条灰色的竖线，宽度0.5
-        timeline.append("line").attr("x1", bar_pos + 10).attr("x2", bar_pos + 10).attr("y1", 0).attr("y2", function () {
-            return 25 * energy.terms.length;
-        }).style("stroke", "gray").style("stroke-width", .5);
-
-        // 找到terms中freq最大的值
-        max_freq = 0;
-        energy.terms.forEach(function (d) {
-            if (d.freq > max_freq) {
-                max_freq = d.freq;
-            }
-        });
-
-        d3.select("#nav").style("display", "");
-        d3.select(".active").classed("active", false);
-        d3.select($("#first-three").parent()[0]).classed("active", "true");
-
         // 画出左侧的直方图
         draw_right_box = function () {
             var hist;
@@ -197,56 +117,6 @@ render_topic = function (q, start, end) {
             });
         };
         draw_right_box();
-        */
-
-        /*
-        d3.select("#first-three").on("click", function (e) {
-            // 某种点击之后就会重画一次
-            d3.select(".active").classed("active", false);
-            d3.select(this.parentNode).classed("active", true);
-            d3.selectAll(".term").remove();
-            energy.terms.sort(function (a, b) {
-                return b.freq - a.freq;
-            });
-            draw_right_box();
-            draw_flow(terms[q]);
-        });
-
-        // 如果点击到revert，也就是Overall那个项目的时候
-        d3.select("#revert").on("click", function (e) {
-            var hist;
-            d3.select(".active").classed("active", false);
-            d3.select(this.parentNode).classed("active", "true");
-            d3.selectAll(".term").remove();
-            // 此时是overall而不是hotspot，所以按照所有的paper数量freq来排序
-            energy.terms.sort(function (a, b) {
-                return b.freq - a.freq;
-            });
-            // 这些和上面的代码相同
-            hist = timeline.append("g").selectAll(".term").data(energy.terms).enter().append("g").attr("class", "term").attr("id", function (d) {
-                return "term-" + d.idx;
-            }).attr("transform", function (d, i) {
-                return "translate(" + [0, i * timeline_item_offset + 20] + ")rotate(" + 0 + ")";
-            }).on("click", function (d) {
-                draw_flow(d);
-            });
-            hist.append("rect").attr("x", function (d) {
-                return bar_pos + 10;
-            }).attr("y", function (d) {
-                return 0;
-            }).attr("height", 18).attr("width", function (d) {
-                // 这个时候矩形的宽度使用的是freq相关的参数，和之前的不一样
-                return hist_height * d.freq / max_freq;
-            }).style("fill-opacity", 0.7).style("fill", "#60aFe9").append("svg:title").text(function (d) {
-                return d.sum;
-            });
-            hist.append("text").attr("text-anchor", "end").attr("transform", function (d) {
-                return "translate(" + [bar_pos, 0] + ")rotate(" + 0 + ")";
-            }).style("font-size", 12).attr("dy", ".85em").text(function (d) {
-                return d.t;
-            });
-            draw_flow(terms[q]);
-        });
         */
 
         draw_trend_initialize = function(){
@@ -488,42 +358,6 @@ render_topic = function (q, start, end) {
             });
         }
         draw_trend_force();
-
-        /*
-        draw_item_trend = function(){
-            item = svg.append("g").selectAll(".item").data(energy.terms).enter().append("g").attr("class", "item").attr("transform", function (d) {
-                return "translate(" + x(d.start.year) + "," + (d.start.node.y + d.start.node.dy / 2) + ")";
-            });
-            item.append("circle").attr("cx", function (d) {
-                return 0;
-            }).attr("cy", function (d) {
-                return 0;
-            }).attr("r", function (d) {
-                return d.freq / 10;
-            }).style("stroke-width", 1).style("stroke", function (d) {
-                return color(d.start.cluster);
-            }).style("stroke-opacity", .5).style("fill", function (d) {
-                return color(d.start.cluster);
-            }).style("display", "none");
-            basis = d3.svg.area().x(function (d, i) {
-                return x(d.y);
-            }).y0(function (d) {
-                if (d.d < 30) {
-                    return 200 - d.d * 5;
-                }
-                return 50;
-            }).y1(function (d) {
-                if (d.d < 30) {
-                    return 200 + d.d * 5;
-                }
-                return 350;
-            }).interpolate("basis");
-            flow = chart.append("g").attr("transform", function (d) {
-                return "translate(" + [0, 350] + ")rotate(" + 0 + ")";
-            });
-        }
-        */
-        //draw_item_trend();
 
         // 针对某一个topic，画出演化图下方的flow图
         draw_flow = function (data) {
