@@ -365,6 +365,18 @@ render_topic = function (q, start, end) {
                 draw_trend_links();
                 draw_trend_nodes();
                 draw_trend_force();
+            }).on("mousedown", function (d, event){
+                // here select a link
+                console.log(d3.event.offsetX + ":" + d3.event.offsetY);
+                console.log("from " + d.source_index);
+                window_width = width / energy.time_slides.length;
+                link = d;
+                if ((d3.event.offsetX % window_width) <= (window_width / 2)){
+                    from_node = d.source;
+                }
+                else{
+                    from_node = d.target;
+                }
             });
             link.append("title").text(function (d) {
                 return d.source.name + " → " + d.target.name + d.source_index;
@@ -400,6 +412,9 @@ render_topic = function (q, start, end) {
                 d3.select("#detailInfo").text(function () {
                     return d.name + "：  " + format(d.value) + "\n";
                 });
+            }).on("mouseup", function (d, event){
+                console.log(d3.event.layerX + ":" + d3.event.layerY);
+                console.log("from " + from_node.name + ' to ' + d.name);
             });
 
             node.append("a").attr("class", "border-fade").append("rect").attr("height", function (d) {
@@ -444,7 +459,7 @@ render_topic = function (q, start, end) {
             // 每个nodes其实应该是一堆的key组成的，但是程序只挑选了weight最大的那一个作为name
             // nodes.pos是出现在第几个时间片
 
-            force.nodes(energy.nodes).gravity(.1).charge(function (d) {
+            force.nodes(energy.nodes).gravity(.05).charge(function (d) {
                 if (d.dy < 10) {
                     return -(d.dy * 10);
                 } else {
