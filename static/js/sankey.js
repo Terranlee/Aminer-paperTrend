@@ -85,15 +85,15 @@ d3.sankey = function() {
     computeNodeBreadths();//////the X cordinate of every nodes
     computeNodeDepths_minimum_jixy(iterations);/////algo:  the order:pos   cordinates : y
     computeLinkDepths();////vertical y cordinates of the link/nodes
-    computeItemNode();
+    //computeItemNode();
     return sankey;
   };
 
   sankey.remove_link = function(link){
     // code added by Terranlee
-    // 删除一个link，需要重新计算相关link的weight
-    w1_left = 1.0 - link.w1;
-    w2_left = 1.0 - link.w2;
+    // 删除一个link
+    //w1_left = 1.0 - link.w1;
+    //w2_left = 1.0 - link.w2;
     s = link.source_index;
     t = link.target_index;
 
@@ -119,10 +119,14 @@ d3.sankey = function() {
     return sankey;
   };
 
+  sankey.change_link = function(change_link, from_node, to_node){
+
+  };
+
   sankey.repaint = function(iterations){
     computeNodeDepths_minimum_jixy(iterations);
     computeLinkDepths();
-    computeItemNode();
+    //computeItemNode();
     return sankey;
   };
 

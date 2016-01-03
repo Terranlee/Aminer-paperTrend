@@ -104,6 +104,7 @@ render_topic = function (q, start, end) {
         var is_first = 1;
 
         $("#chart").removeClass("loading");
+        /*
         terms = {};
         max_sum = 0;
         energy.terms.forEach(function (t) {
@@ -131,7 +132,9 @@ render_topic = function (q, start, end) {
         energy.people.forEach(function (t) {
             people[t.id] = t;
         });
+        */
 
+        /*
         // 左侧直方图的长度（也就是能容纳多少项）
         // energy.terms表示的应该就是直方图中表示的那些研究方向
         timeline.attr("height", function (d) {
@@ -194,8 +197,9 @@ render_topic = function (q, start, end) {
             });
         };
         draw_right_box();
+        */
 
-
+        /*
         d3.select("#first-three").on("click", function (e) {
             // 某种点击之后就会重画一次
             d3.select(".active").classed("active", false);
@@ -243,6 +247,7 @@ render_topic = function (q, start, end) {
             });
             draw_flow(terms[q]);
         });
+        */
 
         draw_trend_initialize = function(){
             // 接下来的部分和演化图相关
@@ -297,7 +302,7 @@ render_topic = function (q, start, end) {
 
         // 应该是在设置nodes，links，items
         // nodeOffset和layout的意义还不是很清楚   //TODO:
-        sankey.nodes(energy.nodes).links(energy.links).items(energy.terms).nodeOffset(width / energy.time_slides.length).layout(300);
+        sankey.nodes(energy.nodes).links(energy.links).nodeOffset(width / energy.time_slides.length).layout(300);
 
         draw_trend_links = function(){
             // changed by Terranlee
@@ -370,7 +375,7 @@ render_topic = function (q, start, end) {
                 console.log(d3.event.offsetX + ":" + d3.event.offsetY);
                 console.log("from " + d.source_index);
                 window_width = width / energy.time_slides.length;
-                link = d;
+                change_link = d;
                 if ((d3.event.offsetX % window_width) <= (window_width / 2)){
                     from_node = d.source;
                 }
@@ -415,6 +420,7 @@ render_topic = function (q, start, end) {
             }).on("mouseup", function (d, event){
                 console.log(d3.event.layerX + ":" + d3.event.layerY);
                 console.log("from " + from_node.name + ' to ' + d.name);
+                sankey.change_link(change_link, from_node, d);
             });
 
             node.append("a").attr("class", "border-fade").append("rect").attr("height", function (d) {
@@ -459,7 +465,7 @@ render_topic = function (q, start, end) {
             // 每个nodes其实应该是一堆的key组成的，但是程序只挑选了weight最大的那一个作为name
             // nodes.pos是出现在第几个时间片
 
-            force.nodes(energy.nodes).gravity(.05).charge(function (d) {
+            force.nodes(energy.nodes).gravity(.1).charge(function (d) {
                 if (d.dy < 10) {
                     return -(d.dy * 10);
                 } else {
@@ -467,9 +473,11 @@ render_topic = function (q, start, end) {
                 }
             }).size([width, 330]).start();
 
+            /*
             energy.terms.sort(function (a, b) {
                 return b.start.year - a.start.year;
             });
+            */
             force.on("tick", function () {
                 node.attr("transform", function (d) {
                     d.x = d.pos * (width / energy.time_slides.length);
@@ -481,6 +489,7 @@ render_topic = function (q, start, end) {
         }
         draw_trend_force();
 
+        /*
         draw_item_trend = function(){
             item = svg.append("g").selectAll(".item").data(energy.terms).enter().append("g").attr("class", "item").attr("transform", function (d) {
                 return "translate(" + x(d.start.year) + "," + (d.start.node.y + d.start.node.dy / 2) + ")";
@@ -513,6 +522,7 @@ render_topic = function (q, start, end) {
                 return "translate(" + [0, 350] + ")rotate(" + 0 + ")";
             });
         }
+        */
         //draw_item_trend();
 
         // 针对某一个topic，画出演化图下方的flow图
