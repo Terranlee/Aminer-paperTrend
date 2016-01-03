@@ -1,3 +1,32 @@
+// the remove functions of array
+Array.prototype.remove=function(dx) 
+{ 
+    if(isNaN(dx)||dx>this.length){return false;} 
+    for(var i=0,n=0;i<this.length;i++) 
+    { 
+        if(this[i]!=this[dx]) 
+        { 
+            this[n++]=this[i] 
+        } 
+    } 
+    this.length-=1 
+}
+
+Array.prototype.remove_name=function(obj){ 
+    for(var i =0;i <this.length;i++){ 
+        var temp = this[i]; 
+        if(!isNaN(obj)){ 
+            temp=i; 
+        } 
+        if(temp == obj){ 
+            for(var j = i;j <this.length;j++){ 
+                this[j]=this[j+1]; 
+            } 
+            this.length = this.length-1; 
+        } 
+    } 
+} 
+
 d3.sankey = function() {
   var sankey = {},
       nodeWidth = 24,
@@ -50,7 +79,7 @@ d3.sankey = function() {
     return sankey;
   };
 
-  sankey.layout = function(iterations) {////jixiangyu   the algorithm
+  sankey.layout = function(iterations) {
     computeNodeLinks();///////transform the link value to node objet
     computeNodeValues();//////set the weight of each node 
     computeNodeBreadths();//////the X cordinate of every nodes
@@ -60,232 +89,35 @@ d3.sankey = function() {
     return sankey;
   };
 
+  sankey.remove_link = function(link){
+    // code added by Terranlee
+    // 删除一个link，需要重新计算相关link的weight
+    w1_left = 1.0 - link.w1;
+    w2_left = 1.0 - link.w2;
+    s = link.source_index;
+    t = link.target_index;
 
-    /////node.pos represent the layer of every node
+    nodes[s].sourceLinks.remove_name(link);
+    nodes[t].targetLinks.remove_name(link);
+    links.remove_name(link);
 
-     /////jixiangyu  begin of the algo test 
-     /*
-      var layer_content=new Array();
-
-      var p=0,q=0;
-      var vertex_num=nodes.length,
-      arc_num=links.length;        
-      var vertex_node=[];///////jixiangyu  initial ordering!
-      var arc=new Array();
-      var visited_node=[];
-
-      for(var t=0;t<nodes.length;t++){
-        visited_node=0;
-
+    for(var i=0; i<links.length; i++){
+      if(links[i].source_index == s){
+        links[i].w2 *= w2_left;
       }
-
-
-      nodes.sort(function(a,b){
-        return a.layer-b.layer;
-      });
-      
-      console.log(nodes);
-      
-
-      var max_layer=0;
-
-      for (i = 0; i < n; ++i) {
-        (o = nodes[i]).index = i;
-         ///////////jixiangyu   index  setup ?????????
-        if(o.layer>max_layer){
-          max_layer=o.layer;
-        }
-       // layer_content[o.layer].push(o);
-        o.median_value=0;  //set the initail value for every node   jixiagnyu
-        o.weight = 0;//////////set a index for every node;  every node has a weight of 0;  jixiangyu
-                          ////////weight shows the link that related to the link
-                          ///////initilize the weight=0,index =i for all nodes jixiangyu
+      if(links[i].target_index == s){
+        links[i].w1 *= w1_left;
       }
-
-          var layer_content=new Array();
-
-      for(i=1;i<=max_layer;i++){
-        layer_content[i]=new Array();
-
-      }
-
-  ///////set the content of each layer   jixiangyu
-       for (i = 0; i < n; i++){
-        o=nodes[i];
-        var cont=parseInt(o.layer);
-       //  console.log(cont);
-        if(o.weight!=0){
-
-
-        layer_content[cont].push(nodes[i]);
-
-        }
-      }
-
-            reorder();
-
-
-      function reorder(){
-        for(i=1;i<=max_layer;i++){
-          for(j=0;j<layer_content[i].length;j++){
-           // console.log(content[i][j]);
-            (o=layer_content[i][j]).layer_order=j+1;
-            
-          }
-        }
-        //return nodes;
-      }
-
-
-       function Create_Graph()
-    {
-      
-      
-      for(p=0;p<vertex_num;p++){
-        var arc_colum=new Array();
-        for(q=0;q<vertex_num;q++){
-          
-          arc_colum.push(0);
-        }
-        arc.push(arc_colum);
-        console.log(arc_colum);
-       // console.log(arc);
-        }
-      
-      for(p=0;p<links.length;p++){
-        var o=links[p];
-        arc[o.source.index][o.target.index]= 1;
-        // if (typeof o.target !== "number") o.target = ;
-      }
-      //console.log(arc);
     }
+    return sankey;
+  };
 
-    function DFS(v)
-    {
-      var j;
-      if (!visited_node[v]) {
-        visited_node[v]=1;
-
-      }
-
-      for(j=0;j<nodes.length;j++){
-        if (arc[v][j]&&!visited_node[j]) {
-          DFS(j);
-
-        }
-
-      }
-
-    }
-
-
-          var omi=0.5;
-      
-      function median(iter){
-        if(iter%2==0){
-          for(var i=1;i<=max_layer;i++){
-            for(var a in layer_content[i]){
-              (o=layer_content[i][a]).median_value=omi*(a+1)+(1-omi)*median_sun(layer_content[i][a]);
-
-            }
-            layer_content[i].sort(function(t,b){
-              return t.median_value-b.median_value;
-            });
-          }
-        }
-        return reorder();
-      }
-
-      function median_sun(node){
-        var sum=0;
-          for (i = 0; i < m; ++i) {
-          o = links[i]
-          if (node==o.target) {
-          sum=sum+o.weight*o.source.layer_order;
-
-          }
-          else if(node==o.source){
-            sum=sum+o.weight*o.target.layer_order;
-
-          }
-        }
-
-      return sum;
-      }
-
-      function transpose(){
-        var improved=true;
-        while(improved){
-          improved=false;
-          for(i=1;i<=max_layer;i++){
-            for(j=0;j<layer_content[i].length-2;j++){
-              var v=layer_content[i][j],w=layer_content[i][j+1];
-
-              if(crossing(v,w,i)>crossing(w,v,i)){
-                console.log("change    now");
-                improved=true;
-                var temp=layer_content[i][j];
-                    layer_content[i][j]=layer_content[i][j+1];
-                    layer_content[i][j+1]=temp;
-                    reorder();
-              }
-
-
-            }
-          }
-        }
-      }
-
-      function crossing(node1,node2,i){
-
-        var cross;
-
-        var neigh1=neighbors[node1.index];
-        var neigh2=neighbors[node2.index];
-        
-       for(var k in neigh1){
-        for(var e in neigh2){
-
-          if(k.layer==e.layer&&k.layer_order>e.layer_order){
-
-            cross++;
-
-            
-
-            }
-          }
-        }
-
-        return cross;
-
-       }
-
-        /*var matrix_corss=new Array(2);
-        var colum=new Array();
-        for(var temp=0;temp<layer_content[node1.layer+1].length;temp++){
-            colum.push(arc[node1.index][layer_content[node1.layer+1][temp]==1));
-            
-
-        }*/
-
-
-/*
-      function algo_reorder(){
-        reorder();
-        for(var timer=0;timer<24;timer++){
-          median(timer);
-          transpose();
-
-
-        }
-    }
-
-       algo_reorder();
-
-     */
-
-/////=======end of the algo
-
+  sankey.repaint = function(iterations){
+    computeNodeDepths_minimum_jixy(iterations);
+    computeLinkDepths();
+    computeItemNode();
+    return sankey;
+  };
 
   sankey.area = d3.svg.area()
           .x(function(d){
@@ -366,14 +198,10 @@ d3.sankey = function() {
   ////jixiangyu  chabnge to the weight of the node 
   function computeNodeValues() {
     nodes.forEach(function(node) {
-      //console.log("check");
       node.value = node.w;
-      // node.value = Math.max(
-      //   d3.sum(node.sourceLinks, value),
-      //   d3.sum(node.targetLinks, value)
-      // );
     });
   }
+
   ///jixiangyu    the compute layouut order
 ///the node neighbor to the neighboring nodes???
   function computeItemNode() {
@@ -394,37 +222,10 @@ d3.sankey = function() {
   // nodes with no incoming links are assigned breadth zero, while
   // nodes with no outgoing links are assigned the maximum breadth.
   function computeNodeBreadths() {
-    // var remainingNodes = nodes,
-    //     nextNodes,
-    //     x = 0;
-
-
-   // var test=1;
     nodes.forEach(function(node){
-      node.x = node.pos * nodeOffset;////pos is in the Json data  jixiangyu 
-
-      //console.log(node.cluster);
-      //test++;
-      
+      node.x = node.pos * nodeOffset;////pos is in the Json data  jixiangyu   
       node.dx = nodeWidth;
     });
-
-    // while (remainingNodes.length) {
-    //   nextNodes = [];
-    //   remainingNodes.forEach(function(node) {
-    //     node.x = x;
-    //     node.dx = nodeWidth;
-    //     node.sourceLinks.forEach(function(link) {
-    //       nextNodes.push(link.target);
-    //     });
-    //   });
-    //   remainingNodes = nextNodes;
-    //   ++x;
-    // }
-
-    //
-    // moveSinksRight(x);
-    // scaleNodeBreadths((width - nodeWidth) / (x - 1));
   }
 
   function moveSourcesRight() {
@@ -450,13 +251,16 @@ d3.sankey = function() {
   }
 
   function computeNodeDepths_minimum_jixy(iterations) {
+    
     var nodesByBreadth = d3.nest()//////jixiangyu   nest? initialize the group sort
         .key(function(d) { return d.x; })/////group by x-cordinate
         .sortKeys(d3.ascending)
         .entries(nodes)
         .map(function(d) { return d.values; });   
-
+        
     initializeNodeDepth();
+    // what is this?
+    /*
     resolveCollisions();
     for (var alpha = 1; iterations > 0; --iterations) {
       relaxRightToLeft(alpha *= .99);/////
@@ -464,7 +268,7 @@ d3.sankey = function() {
       relaxLeftToRight(alpha);/////symmetric if the layout  jixiangyu 
       resolveCollisions();
     }
-
+    */
 
      //
     function initializeNodeDepth() {
@@ -473,31 +277,13 @@ d3.sankey = function() {
       });
 
       nodesByBreadth.forEach(function(nodes) {
-       
-                  var ojoj=[1,2,3,1];
-          //console.log(d3.sum(ojoj,sum_jixy));
-          //console.log("this sum_test")
-          function sum_jixy() {
-        // return center(link.source) * link.value;
-        return 2;
-      }
-          
-
         nodes.forEach(function(node, i) {
           node.y = i;
-          //node.dy=80;
-
-          ///console.log(node.y);
           node.dy = node.value * ky;   ///height of every node
-
-          //median_value();  jixiangyu
-
-          //
         });
       });
 
       links.forEach(function(link) {
-        // link.dy = link.value * ky;
         link.dy1 = link.source.w * link.w1 * ky / d3.sum(link.source.sourceLinks, weight1);
         link.dy2 = link.target.w * link.w2 * ky / d3.sum(link.target.targetLinks, weight2);
       });
