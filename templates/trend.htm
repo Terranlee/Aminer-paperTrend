@@ -77,58 +77,41 @@ $( "#amount" ).val( "" + $( "#slider-range" ).slider( "values", 0 ) +
 </div>
 <div class="container">
     <div id="main">
-    <div id="chart" class="pull-left">
-        <div>
-        <input type="text" id="amount" style="margin-left:20px; border:0; color:#f6931f; font-weight:bold;">
-        <button>query</button>
+        <div id="chart" class="pull-left" style="-moz-user-select:-moz-none;"  onselectstart="return false;">
+            <div>
+                <input type="text" id="amount" style="margin-left:20px; border:0; color:#f6931f; font-weight:bold;">
+                <button>query</button>
+            </div>
+            <div id="slider-range" style="height:15px; margin-left: 70px;"></div>
+            <div class="modal-loading"></div>
+            <div id="tooltip" class="hidden"><p><strong id="value"></strong></p></div>
+            <div id="trendByYear" class="hidden" style=""></div>
         </div>
-        <div id="slider-range" style="height:15px; margin-left: 70px;"></div>
-        <div class="modal-loading"></div>
-        <div id="tooltip" class="hidden">
-			
-			<p><strong id="value"></strong></p>
-		</div>
-        <div id="trendByYear" class="hidden" style="">
-            <!--<span id="interploatTrend" class="label label-info capitalize light"></span>-->
-        </div>
-    </div>
-
-                
     </div>
     
-
-
 
     <div id="fade"></div>
     <script src="/static/js/sankey.js"></script>
     
-    
-    <div id="bottom-box">
+    <div id="bottom-box"></div>
+
+    <div id="right-box" style="overflow:auto; width:263px;">
+        <ul class="nav nav-tabs" id="nav" style="display:none">
+            <li class="active" ><a href="#" id="first-three">Current Hotspot</a></li>
+            <li><a href="#" id="revert">Overall</a></li>
+        </ul>
     </div>
+    <script src="/static/js/trend_old.js"></script>
 
-<div id="right-box" style="overflow:auto; width:263px;">
-<ul class="nav nav-tabs" id="nav" style="display:none">
-  <li class="active" ><a href="#" id="first-three">Current Hotspot</a></li>
-  <li><a href="#" id="revert">Overall</a></li>
-  
-</ul>
-</div>
-                <script src="/static/js/trend_old.js"></script>
-                
-</div>
-
-<div class="popupbox" id="popuprel"><!--jixiangyu 注意在 g 和node 不同标签添加鼠标动作组建的不同效果-->
-           <div id="intabdiv" style="border-radius:15%">
-            <h1>作者信息<br />
-		      <a href="http://www.baidu.com" target="_blank">作者主页链接</a>
-            </h1>
-                <p>
-                    <img src ="test1.jpg" align ="right" style="right:10px">
-                    <h2 id="get"></h2>
-                </p>
-           </div>
-
-</div>
+    <div class="popupbox" id="popuprel"><!--jixiangyu 注意在 g 和node 不同标签添加鼠标动作组建的不同效果-->
+        <div id="intabdiv" style="border-radius:15%">
+            <h1>作者信息<br /><a href="http://www.baidu.com" target="_blank">作者主页链接</a></h1>
+            <p>
+                <img src ="test1.jpg" align ="right" style="right:10px">
+                <h2 id="get"></h2>
+            </p>
+        </div>
+    </div>
 
 <!--<div class="toggler" style="width: 500px; height: 200px; z-index: 100000;">
 <div id="effect" class="ui-widget-content ui-corner-all" style="">
