@@ -336,241 +336,201 @@
 	"nodes": [{
 		"name": "small number",
 		"pos": 0,
-		"n": 0.34444444444444444,
 		"cluster": 0,
 		"w": 0.94722222222222219
 	}, {
 		"name": "nearest neighbor",
 		"pos": 0,
-		"n": 0.061111111111111109,
 		"cluster": 2,
 		"w": 0.16805555555555554
 	}, {
 		"name": "inform retriev",
 		"pos": 0,
-		"n": 0.49444444444444446,
 		"cluster": 3,
 		"w": 1.3597222222222223
 	}, {
 		"name": "statist model",
 		"pos": 0,
-		"n": 0.10000000000000001,
 		"cluster": 4,
 		"w": 0.27500000000000002
 	}, {
 		"name": "time seri",
 		"pos": 1,
-		"n": 0.020771513353115726,
 		"cluster": 0,
 		"w": 0.093471810089020765
 	}, {
 		"name": "probabilist model",
 		"pos": 1,
-		"n": 0.07418397626112759,
 		"cluster": 2,
 		"w": 0.33382789317507416
 	}, {
 		"name": "small number",
 		"pos": 1,
-		"n": 0.86350148367952517,
 		"cluster": 3,
 		"w": 3.8857566765578633
 	}, {
 		"name": "markov chain",
 		"pos": 1,
-		"n": 0.041543026706231452,
 		"cluster": 4,
 		"w": 0.18694362017804153
 	}, {
 		"name": "small number",
 		"pos": 2,
-		"n": 0.26209048361934478,
 		"cluster": 0,
 		"w": 1.8346333853354135
 	}, {
 		"name": "learn algorithm",
 		"pos": 2,
-		"n": 0.015600624024960999,
 		"cluster": 2,
 		"w": 0.10920436817472699
 	}, {
 		"name": "object recognit",
 		"pos": 2,
-		"n": 0.40093603744149764,
 		"cluster": 3,
 		"w": 2.8065522620904835
 	}, {
 		"name": "inform retriev",
 		"pos": 2,
-		"n": 0.32137285491419659,
 		"cluster": 4,
 		"w": 2.2496099843993762
 	}, {
 		"name": "decis tree",
 		"pos": 3,
-		"n": 0.64861294583883755,
 		"cluster": 0,
 		"w": 8.5941215323645981
 	}, {
 		"name": "time seri",
 		"pos": 3,
-		"n": 0.20739762219286659,
 		"cluster": 3,
 		"w": 2.7480184940554824
 	}, {
 		"name": "object recognit",
 		"pos": 3,
-		"n": 0.14398943196829592,
 		"cluster": 4,
 		"w": 1.9078599735799209
 	}, {
 		"name": "time seri",
 		"pos": 4,
-		"n": 0.46756082345601996,
 		"cluster": 0,
 		"w": 11.805910792264504
 	}, {
 		"name": "decis tree",
 		"pos": 4,
-		"n": 0.10761072988147224,
 		"cluster": 1,
 		"w": 2.7171709295071742
 	}, {
 		"name": "much more",
 		"pos": 4,
-		"n": 0.35028072364316903,
 		"cluster": 3,
 		"w": 8.844588271990018
 	}, {
 		"name": "featur extract",
 		"pos": 4,
-		"n": 0.074547723019338735,
 		"cluster": 4,
 		"w": 1.882330006238303
 	}, {
 		"name": "inform retriev",
 		"pos": 5,
-		"n": 0.52547431251332344,
 		"cluster": 0,
 		"w": 19.311180984864638
 	}, {
 		"name": "nearest neighbor",
 		"pos": 5,
-		"n": 0.082498401193775314,
 		"cluster": 2,
 		"w": 3.0318162438712428
 	}, {
 		"name": "learn algorithm",
 		"pos": 5,
-		"n": 0.3214666382434449,
 		"cluster": 3,
 		"w": 11.8138989554466
 	}, {
 		"name": "data mine",
 		"pos": 5,
-		"n": 0.070560648049456401,
 		"cluster": 4,
 		"w": 2.5931038158175226
 	}, {
 		"name": "learn algorithm",
 		"pos": 6,
-		"n": 0.71406811010771409,
 		"cluster": 0,
 		"w": 40.701882276139706
 	}, {
 		"name": "machin learn",
 		"pos": 6,
-		"n": 0.10488521379610488,
 		"cluster": 3,
 		"w": 5.9784571863779785
 	}, {
 		"name": "markov chain",
 		"pos": 6,
-		"n": 0.18104667609618105,
 		"cluster": 4,
 		"w": 10.319660537482321
 	}, {
 		"name": "learn algorithm",
 		"pos": 7,
-		"n": 0.52625924287429693,
 		"cluster": 0,
 		"w": 51.441840990962525
 	}, {
 		"name": "support vector machin",
 		"pos": 7,
-		"n": 0.29103204196422927,
 		"cluster": 3,
 		"w": 28.448382102003411
 	}, {
 		"name": "machin learn",
 		"pos": 7,
-		"n": 0.1827087151614738,
 		"cluster": 4,
 		"w": 17.859776907034064
 	}, {
 		"name": "spars code",
 		"pos": 8,
-		"n": 0.45155062896998382,
 		"cluster": 0,
 		"w": 71.570774691742443
 	}, {
 		"name": "time seri",
 		"pos": 8,
-		"n": 0.10767218831734961,
 		"cluster": 2,
 		"w": 17.066041848299914
 	}, {
 		"name": "deep learn",
 		"pos": 8,
-		"n": 0.32339021048698469,
 		"cluster": 3,
 		"w": 51.257348362187074
 	}, {
 		"name": "optim problem",
 		"pos": 8,
-		"n": 0.11738697222568191,
 		"cluster": 4,
 		"w": 18.605835097770584
 	}, {
 		"name": "neural network",
 		"pos": 9,
-		"n": 0.61412032251395499,
 		"cluster": 0,
 		"w": 150.61300909654747
 	}, {
 		"name": "spars code",
 		"pos": 9,
-		"n": 0.30556129832540829,
 		"cluster": 3,
 		"w": 74.938908414306383
 	}, {
 		"name": "deep learn",
 		"pos": 9,
-		"n": 0.080318379160636763,
 		"cluster": 4,
 		"w": 19.698082489146167
 	}, {
 		"name": "data mine",
 		"pos": 10,
-		"n": 0.80000000000000004,
 		"cluster": 0,
 		"w": 48.0
 	}, {
 		"name": "window media player",
 		"pos": 10,
-		"n": 0.0,
 		"cluster": 2,
 		"w": 0.0
 	}, {
 		"name": "optim problem",
 		"pos": 10,
-		"n": 0.0,
 		"cluster": 3,
 		"w": 0.0
 	}, {
 		"name": "boltzmann machin",
 		"pos": 10,
-		"n": 0.20000000000000001,
 		"cluster": 4,
 		"w": 12.0
 	}]
