@@ -12,7 +12,7 @@ Array.prototype.remove=function(dx)
     this.length-=1 
 }
 
-Array.prototype.remove_name=function(obj){ 
+Array.prototype.remove_object=function(obj){ 
     for(var i =0;i <this.length;i++){ 
         var temp = this[i]; 
         if(!isNaN(obj)){ 
@@ -97,10 +97,16 @@ d3.sankey = function() {
     s = link.source_index;
     t = link.target_index;
 
-    nodes[s].sourceLinks.remove_name(link);
-    nodes[t].targetLinks.remove_name(link);
-    links.remove_name(link);
-
+    nodes[s].sourceLinks.remove_object(link);
+    nodes[t].targetLinks.remove_object(link);
+    links.remove_object(link);
+    if(nodes[s].sourceLinks.length == 0 && nodes[s].targetLinks.length == 0){
+        nodes.remove(s);
+    }
+    if(nodes[t].sourceLinks.length == 0 && nodes[t].targetLinks.length == 0){
+        nodes.remove(t);
+    }
+    /*
     for(var i=0; i<links.length; i++){
       if(links[i].source_index == s){
         links[i].w2 *= w2_left;
@@ -109,6 +115,7 @@ d3.sankey = function() {
         links[i].w1 *= w1_left;
       }
     }
+    */
     return sankey;
   };
 
@@ -118,6 +125,10 @@ d3.sankey = function() {
     computeItemNode();
     return sankey;
   };
+
+  sankey.relayout = function(){
+    computeLinkDepths();
+  }
 
   sankey.area = d3.svg.area()
           .x(function(d){
@@ -129,15 +140,6 @@ d3.sankey = function() {
           .y1(function(d){
             return d.y1;
           });
-
-
-  sankey.relayout = function() {
-    computeLinkDepths();
-    //computeNodeDepths_minimum_jixy(300);
-    //computeLinkDepths();
-
-    return sankey;
-  };
 
   sankey.link = function() {
     var curvature = .5;
@@ -152,7 +154,7 @@ d3.sankey = function() {
           x5 = xj(1 - curvature),
           m = (x0 + x1) / 2;
           y0_top = d.source.y + d.sy;
-          y0_bottom = d.source.y + d.sy + d.dy1,
+          y0_bottom = d.source.y + d.sy + d.dy1;
           y1_top = d.target.y + d.ty;// + d.ty;
           y1_bottom = d.target.y + d.ty + d.dy2;
       return "M" + x0 + "," + y0_top
@@ -279,13 +281,36 @@ d3.sankey = function() {
       nodesByBreadth.forEach(function(nodes) {
         nodes.forEach(function(node, i) {
           node.y = i;
-          node.dy = node.value * ky;   ///height of every node
+          if(node.sourceLinks.length == 0 || node.targetLinks.length == 0){
+            // 如果没有出边或者入边的话，就缩小这个节点？
+            node.dy = node.value * ky / 3;
+          }
+          else{
+            node.dy = node.value * ky;   ///每个节点的高度
+          }
         });
       });
 
       links.forEach(function(link) {
-        link.dy1 = link.source.w * link.w1 * ky / d3.sum(link.source.sourceLinks, weight1);
-        link.dy2 = link.target.w * link.w2 * ky / d3.sum(link.target.targetLinks, weight2);
+        if(link.source.targetLinks.length == 0){
+            link.dy1 = link.source.dy * link.w1 / d3.sum(link.source.sourceLinks, weight1);
+        }
+        else if(link.source.sourceLinks.length == 0){
+            link.dy1 = 0;
+        }
+        else{
+            link.dy1 = link.source.w * link.w1 * ky / d3.sum(link.source.sourceLinks, weight1);
+        }
+
+        if(link.target.sourceLinks.length == 0){
+            link.dy2 = link.target.dy * link.w2 / d3.sum(link.target.targetLinks, weight2);
+        }
+        else if(link.target.targetLinks.length == 0){
+            link.dy2 = 0;
+        }
+        else{
+            link.dy2 = link.target.w * link.w2 * ky / d3.sum(link.target.targetLinks, weight2);
+        }
       });
     }
 
@@ -312,7 +337,6 @@ d3.sankey = function() {
             ////jixiangyu   the implementation of the algo
             var y = d3.sum(node.sourceLinks, weightedTarget) / d3.sum(node.sourceLinks, weight2);
             node.y += (y - center(node)) * alpha;
-
           }
         });
       });

@@ -20,7 +20,7 @@ Array.prototype.remove=function(dx)
     this.length-=1 
 }
 
-Array.prototype.remove_name=function(obj){ 
+Array.prototype.remove_object=function(obj){ 
     for(var i =0;i <this.length;i++){ 
         var temp = this[i]; 
         if(!isNaN(obj)){ 
@@ -99,18 +99,6 @@ render_topic = function (q, start, end) {
     d3.json("/static/js/trend_out.json", function (energy) {
         // 从文件中读取数据，保存到energy这个量中
         var axis, basis, draw_flow, draw_right_box, flow, force, item, link, max_freq, max_sum, node, people, terms, time_slides_dict, time_slides_offset, time_window, x;
-        // changed by Terranlee
-        // 用来统计每个节点还是否有边连接过来？
-        var node_count = new Array(energy.nodes.length);
-        for(var i=0; i<node_count.length; i++){
-            node_count[i] = 0;
-        }
-        for(var i=0; i<energy.links.length; i++){
-            s = energy.links[i].source;
-            t = energy.links[i].target;
-            node_count[s] += 1;
-            node_count[t] += 1;
-        }
         // 是否为第一次生成演化图？还是之后进行修改之后得到的？
         // 如果是之后修改的，那就不用重新生成linearGradient了
         var is_first = 1;
