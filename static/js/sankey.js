@@ -92,8 +92,8 @@ d3.sankey = function() {
   sankey.remove_link = function(link){
     // code added by Terranlee
     // 删除一个link
-    //w1_left = 1.0 - link.w1;
-    //w2_left = 1.0 - link.w2;
+    w1_left = 1.0 - link.w1;
+    w2_left = 1.0 - link.w2;
     s = link.source_index;
     t = link.target_index;
 
@@ -109,18 +109,44 @@ d3.sankey = function() {
     /*
     for(var i=0; i<links.length; i++){
       if(links[i].source_index == s){
-        links[i].w2 *= w2_left;
+        links[i].w2 /= w2_left;
       }
       if(links[i].target_index == s){
-        links[i].w1 *= w1_left;
+        links[i].w1 /= w1_left;
       }
     }
     */
     return sankey;
   };
 
-  sankey.change_link = function(change_link, from_node, to_node){
-    
+  sankey.change_link = function(change_link, stay_node, from_node, to_node){
+    if(from_node.pos > stay_node.pos && to_node.pos > stay_node.pos){
+      change_link.target = to_node;
+      if(to_node.targetLinks.length != 0){
+        change_link.target_index = to_node.targetLinks[0].target_index;
+      }
+      else{
+        change_link.target_index = to_node.sourceLinks[0].source_index;
+      }
+      from_node.targetLinks.remove_object(change_link);
+      to_node.targetLinks.push(change_link);
+    }
+    else if(from_node.pos < stay_node.pos && to_node.pos < stay_node.pos){
+      change_link.source = to_node;
+      if(to_node.sourceLinks.length != 0){
+        change_link.source_index = to_node.sourceLinks[0].source_index;
+      }
+      else{
+        change_link.source_index = to_node.targetLinks[0].target_index;
+      }
+      from_node.sourceLinks.remove_object(change_link);
+      to_node.sourceLinks.push(change_link);
+    }
+    else{
+      return sankey;
+    }
+
+    // adjust the weight
   };
 
   sankey.repaint = function(iterations){
@@ -180,6 +206,15 @@ d3.sankey = function() {
 
     return link;
   };
+
+  function rebuild(){
+    nodes.forEach(function(node) {
+      node.sourceLinks = [];
+      node.targetLinks = [];
+    });
+    links.forEach(function(link){
+    });
+  }
 
   // Populate the sourceLinks and targetLinks for each node.
   // Also, if the source and target are not objects, assume they are indices.

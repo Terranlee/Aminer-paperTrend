@@ -187,7 +187,7 @@ render_topic = function (q, start, end) {
             }).style("fill-opacity", .6).style("fill", function (d) {
                 var key;
                 key = "gradient-" + d.source_index + "-" + d.target_index;
-                if(is_first == 1){
+                if(1){
                     // 颜色渐变都是水平渐变
                     svg.append("linearGradient").attr("id", key).attr("gradientUnits", "userSpaceOnUse").attr("x1", d.source.x + 50).attr("y1", 0).attr("x2", d.target.x).attr("y2", 0).selectAll("stop").data([
                         {
@@ -220,22 +220,12 @@ render_topic = function (q, start, end) {
                 is_first = 0;
                 sankey.remove_link(d);
                 sankey.repaint(300);
-                /*
-                // 是否需要将一个node也去掉？
-                // 如果前后没有边进来，也没有边出去，那么这个node就要删掉
-                node_count[d.source_index] -= 1;
-                node_count[d.target_index] -= 1;
-                if(node_count[d.source_index] <= 0){
-                    energy.nodes.remove(d.source_index);
-                }
-                if(node_count[d.target_index] <= 0){
-                    energy.nodes.remove(d.target_index);
-                }
-                */
-
+                
                 // remove the previous paths, nodes, forces, gradients
+
                 link_group.remove()
                 node_group.remove()
+                svg.selectAll("linearGradient").remove();
                 // add new paths, nodes, forces. gradients, and start all over again!
                 draw_trend_links();
                 draw_trend_nodes();
@@ -248,13 +238,15 @@ render_topic = function (q, start, end) {
                 change_link = d;
                 if ((d3.event.offsetX % window_width) <= (window_width / 2)){
                     from_node = d.source;
+                    stay_node = d.target;
                 }
                 else{
                     from_node = d.target;
+                    stay_node = d.source;
                 }
             });
             link.append("title").text(function (d) {
-                return d.source.name + " → " + d.target.name + d.source_index;
+                return d.source.name + " → " + d.target.name;
             });
         }
         draw_trend_links();
@@ -288,9 +280,47 @@ render_topic = function (q, start, end) {
                     return d.name + "：  " + format(d.value) + "\n";
                 });
             }).on("mouseup", function (d, event){
+
                 console.log(d3.event.layerX + ":" + d3.event.layerY);
                 console.log("from " + from_node.name + ' to ' + d.name);
-                sankey.change_link(change_link, from_node, d);
+                if(stay_node.pos == d.pos){     //必须在不同pos建立新连接
+                    alert("在不同时间片的topic之间建立演化关系");
+                    return;
+                }
+                if(from_node.pos > stay_node.pos && d.pos < stay_node.pos){
+                    return;             // 拖动的点不能在固定点的两边移动
+                }
+                if(from_node.pos < stay_node.pos && d.pos > stay_node.pos){
+                    return;             
+                }
+                // 新连接不能是原来就存在的
+                if(d.pos > stay_node.pos){
+                    for(var i=0; i<d.targetLinks.length; i++){
+                        if(d.targetLinks[i].source == stay_node){
+                            alert("该演化关系已经存在");
+                            return;
+                        }
+                    }
+                }
+                else if(d.pos < stay_node.pos){
+                    for(var i=0; i<d.sourceLinks.length; i++){
+                        if(d.sourceLinks[i].target == stay_node){
+                            alert("该演化关系已经存在");
+                            return;
+                        }
+                    }
+                }
+                sankey.change_link(change_link, stay_node, from_node, d);
+                sankey.repaint(300);
+                
+                // remove the previous paths, nodes, forces, gradients
+                link_group.remove()
+                node_group.remove()
+                svg.selectAll("linearGradient").remove();
+                // add new paths, nodes, forces. gradients, and start all over again!
+                draw_trend_links();
+                draw_trend_nodes();
+                draw_trend_force();
             });
 
             node.append("a").attr("class", "border-fade").append("rect").attr("height", function (d) {
